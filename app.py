@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
+from models import db, connect_db, User, Feedback
 from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -59,7 +59,8 @@ def login():
 @app.route('/users/<username>')
 def user_info(username):
     user = User.query.filter_by(username = username).first()
-    return render_template('user.html', user = user)
+    feedbacks = Feedback.query.filter_by(username = username)
+    return render_template('user.html', user = user, feedbacks = feedbacks)
 
 @app.route('/logout')
 def logout():
