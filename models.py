@@ -6,11 +6,14 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 
+
+
 def connect_db(app):
     """Connect to database."""
 
     db.app = app
     db.init_app(app)
+    db.create_all()
     
 class User(db.Model):
     '''User.'''
@@ -31,7 +34,7 @@ class User(db.Model):
     
     @classmethod
     def register(cls, username, email, first_name, last_name, pwd):
-        """Register user w/hashed password & return user."""
+        """Register user with hashed password & return user."""
 
         hashed = bcrypt.generate_password_hash(pwd)
         # turn bytestring into normal (unicode utf8) string
@@ -39,3 +42,13 @@ class User(db.Model):
 
         # return instance of user w/username and hashed pwd
         return cls(username=username, email=email, first_name=first_name, last_name=last_name, password=hashed_utf8)
+    
+    @classmethod
+    def authenticate(cls, username, pwd):
+        '''Authenticate user with username and password and return user'''
+        
+        user = User.query.filter_by(username = username).first()
+        if user and bcrypt.check_password_hash(user.password, pwd):
+            return user
+        else:
+            return False

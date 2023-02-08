@@ -24,10 +24,11 @@
         </li>
       </ul>
     </nav>
-    <div class="container" style="margin-top: 2em">
+    <div class="container">
       {% for category, msg in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{category}}">{{ msg }}</div>
-      {% endfor %} {% block content %}{% endblock content %}
+      {% endfor %}
     </div>
+    {% block content %}{% endblock content %}
   </body>
 </html>

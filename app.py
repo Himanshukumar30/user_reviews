@@ -1,7 +1,7 @@
-from flask import Flask, render_template , redirect, flash
+from flask import Flask, render_template, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
 app.app_context().push() 
@@ -39,3 +39,19 @@ def register():
     return render_template('register.html', form=form)
     
     
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        user = User.authenticate(username, password)
+        if user:
+            flash(f"Welcome back, {user.username}!", 'primary')
+            return redirect('/secret')
+        else:
+            form.username.errors = ['Invalid username/password.']
+    
+    return render_template('login.html', form = form)
+
