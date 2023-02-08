@@ -12,6 +12,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired()])
     
     
+    
 class LoginForm(FlaskForm):
     '''Login Form'''
     
