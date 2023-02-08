@@ -17,10 +17,14 @@ toolbar = DebugToolbarExtension(app)
 
 @app.route('/')
 def root():
+    '''Homepage'''
+    
     return render_template('index.html')
 
 @app.route('/Register', methods=['GET', 'POST'] )
 def register():
+    '''Show User registration form'''
+    
     form = RegisterForm()
     
     if form.validate_on_submit():
@@ -41,6 +45,7 @@ def register():
     
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    '''Show login form'''
     form = LoginForm()
     
     if form.validate_on_submit():
@@ -58,12 +63,28 @@ def login():
 
 @app.route('/users/<username>')
 def user_info(username):
+    '''Show user details page'''
+    
     user = User.query.filter_by(username = username).first()
     feedbacks = Feedback.query.filter_by(username = username)
     return render_template('user.html', user = user, feedbacks = feedbacks)
 
 @app.route('/logout')
 def logout():
+    '''Logout user'''
+    
     session.pop('user_id')
     flash("Goodbye!", "info")
+    return redirect('/')
+
+
+@app.route('/users/<username>/delete')
+def delete_user(username):
+    if(session['user_id']):
+        user = User.query.filter_by(username = username).first()
+        feedback = Feedback.query.filter_by(username = username)
+        db.session.delete(user)
+        db.session.commit()
+        session.pop('user_id')
+        flash(f'User: {username} deleted!')
     return redirect('/')

@@ -5,14 +5,22 @@
   <p><b>First Name:</b> {{user.first_name}}</p>
   <p><b>Last Name:</b> {{user.last_name}}</p>
   <p><b>Email:</b> {{user.email}}</p>
+  <a href="/users/{{user.username}}/delete"
+    ><button class="btn-danger">Delete Account</button></a
+  >
 </div>
-{% for feedback in feedbacks %}
-<h2>{{feedback.title}}</h2>
-<small> by {{feedback.username}}</small>
-<p>{{feedback.content}}</p>
-<a href='/feedback/{{feedback.id}}/update' class="btn btn-info">Edit</a>
-<form action='/feedback/{{feedback.id}}/delete'>x</form>
-<form
-{% endfor %} {% else %}
-<p class="text-danger">You are not authorized yet, login first</p>
-{% endif %} {% endblock content %}
+<div class="m-3">
+  <a href="/users/{{user.username}}/feedback/add"
+    ><button class="btn-success">Add feedback</button></a
+  >
+  {% for feedback in feedbacks %}
+  <h2>{{feedback.title}}</h2>
+  <small> by {{feedback.username}}</small>
+  <p>{{feedback.content}}</p>
+  <a href="/feedback/{{feedback.id}}/update" class="btn btn-info">Edit</a>
+  <form action="/feedback/{{feedback.id}}/delete">x</form>
+  {% endfor %} {% else %}
+  <p class="text-danger">You are not authorized yet, login first</p>
+  {% endif %}
+</div>
+{% endblock content %}
