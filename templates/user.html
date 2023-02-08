@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}User Reviews{% endblock title %}
+{% extends 'base.html' %} {% block title %}User Details{% endblock title %}
 {%block content %} {% if session['user_id'] %}
 <div class="m-3">
   <h1>Details for {{user.username}}:</h1>
@@ -23,4 +23,5 @@
   <p class="text-danger">You are not authorized yet, login first</p>
   {% endif %}
 </div>
+
 {% endblock content %}

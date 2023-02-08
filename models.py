@@ -57,6 +57,7 @@ class User(db.Model):
 class Feedback(db.Model):
     '''Feedback.'''
     
+    __tablename__ = 'feedbacks'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)

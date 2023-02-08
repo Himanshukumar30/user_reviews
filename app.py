@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Feedback
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, FeedbackForm
 
 app = Flask(__name__)
 app.app_context().push() 
@@ -88,3 +88,25 @@ def delete_user(username):
         session.pop('user_id')
         flash(f'User: {username} deleted!')
     return redirect('/')
+
+@app.route('/users/<username>/feedback/add', methods = ['GET', 'POST'])
+def add_feedback(username):
+    
+    form = FeedbackForm()
+
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+        feedback = Feedback(
+            title=title,
+            content=content,
+            username=username,
+        )
+
+        db.session.add(feedback)
+        db.session.commit()
+
+        return redirect(f"/users/{feedback.username}")
+
+    return render_template("add_feedback.html", form=form)
