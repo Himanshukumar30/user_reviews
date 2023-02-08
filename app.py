@@ -91,7 +91,6 @@ def delete_user(username):
 
 @app.route('/users/<username>/feedback/add', methods = ['GET', 'POST'])
 def add_feedback(username):
-    
     form = FeedbackForm()
 
     if form.validate_on_submit():

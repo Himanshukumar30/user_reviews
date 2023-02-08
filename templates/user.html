@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block title %}User Details{% endblock title %}
 {%block content %} {% if session['user_id'] %}
 <div class="m-3">
-  <h1>Details for {{user.username}}:</h1>
+  <h1>Hi {{user.username}}!</h1>
   <p><b>First Name:</b> {{user.first_name}}</p>
   <p><b>Last Name:</b> {{user.last_name}}</p>
   <p><b>Email:</b> {{user.email}}</p>
@@ -13,15 +13,18 @@
   <a href="/users/{{user.username}}/feedback/add"
     ><button class="btn-success">Add feedback</button></a
   >
-  {% for feedback in feedbacks %}
-  <h2>{{feedback.title}}</h2>
-  <small> by {{feedback.username}}</small>
-  <p>{{feedback.content}}</p>
-  <a href="/feedback/{{feedback.id}}/update" class="btn btn-info">Edit</a>
-  <form action="/feedback/{{feedback.id}}/delete">x</form>
-  {% endfor %} {% else %}
-  <p class="text-danger">You are not authorized yet, login first</p>
-  {% endif %}
 </div>
-
-{% endblock content %}
+<h3 class="text-center">Your feedbacks:</h3>
+<div class="card m-50 w-75" style="margin: auto; width: 50%">
+  <div class="card-body">
+    {% for feedback in feedbacks %}
+    <h2 class="mb-0">{{feedback.title}}</h2>
+    <small> by {{feedback.username}}</small>
+    <p class="mt-2">{{feedback.content}}</p>
+    <a href="/feedback/{{feedback.id}}/update" class="btn btn-info">Edit</a>
+    <a href="/feedback/{{feedback.id}}/delete" method="POST">X</a>
+    {% endfor %} {% else %}
+    <p class="text-danger">You are not authorized yet, login first</p>
+  </div>
+</div>
+{% endif %} {% endblock content %}
