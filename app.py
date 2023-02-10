@@ -18,8 +18,14 @@ toolbar = DebugToolbarExtension(app)
 @app.route('/')
 def root():
     '''Homepage'''
-    
-    return render_template('index.html')
+    if session.get('user_id'):    
+        user_id = session['user_id']
+        print('testing')
+        print(user_id)
+        user = User.query.get_or_404(user_id)
+        return render_template('index.html', user = user)
+    else:
+        return render_template('index.html')
 
 @app.route('/Register', methods=['GET', 'POST'] )
 def register():

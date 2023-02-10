@@ -18,6 +18,12 @@
       <a href="/" class="navbar-brand bg-dark text-light p-2">Reviews</a>
       <ul class="nav navbar-nav flex-row float-right">
         {% if session['user_id'] %}
+
+        <li class="nav-item">
+          <a href="/users/{{user.username}}" class="nav-link text-light pr-3"
+            >My Account</a
+          >
+        </li>
         <li class="nav-item">
           <a href="/logout" class="nav-link text-light pr-3">Logout</a>
         </li>
