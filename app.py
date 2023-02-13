@@ -98,6 +98,7 @@ def delete_user(username):
 @app.route('/users/<username>/feedback/add', methods = ['GET', 'POST'])
 def add_feedback(username):
     form = FeedbackForm()
+    user = User.query.filter_by(username = username).first()
 
     if form.validate_on_submit():
         title = form.title.data
@@ -114,4 +115,4 @@ def add_feedback(username):
 
         return redirect(f"/users/{feedback.username}")
 
-    return render_template("add_feedback.html", form=form)
+    return render_template("add_feedback.html", form=form, user=user)
